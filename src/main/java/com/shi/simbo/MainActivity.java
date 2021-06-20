@@ -89,10 +89,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,
                     "点击位置2:"+position,
                     Toast.LENGTH_SHORT).show();
+            SeriesItem item = (SeriesItem) parent.getItemAtPosition(position);
             Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-            Bundle bundle=new Bundle();
-            bundle.putString("name", "tinyphp");
-            intent.putExtras(bundle);
+            intent.putExtra("source", item.getSource());
             startActivity(intent);
         }
     };
