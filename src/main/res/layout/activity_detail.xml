@@ -15,7 +15,7 @@
         android:id="@+id/detailTextViewId"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="ss是生生世世生生世世生生世世"/>
+        android:text="标题"/>
 
     <GridView
         android:id="@+id/detailGridViewId"

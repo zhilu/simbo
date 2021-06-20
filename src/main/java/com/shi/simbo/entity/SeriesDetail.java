@@ -8,7 +8,18 @@ public class SeriesDetail {
     private String actors;
     private String release;
     private String url;
+
     private List<Episode> episodes;
+    private int current = 0;
+
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
 
     public String getTitle() {
         return title;

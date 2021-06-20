@@ -3,6 +3,7 @@ package com.shi.simbo;
 import com.shi.simbo.entity.SeriesDetail;
 import com.shi.simbo.task.LoadItemTask;
 import com.shi.simbo.task.LoadSeriesTask;
+import com.shi.simbo.task.ParseUrlTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -36,6 +37,14 @@ public class ExampleUnitTest {
     public void testLoadSeries() throws IOException, InterruptedException {
         LoadSeriesTask task = new LoadSeriesTask("http://www.2hanju.com/hanju/2470.html");
         task.loadSeries();
+
+
+    }
+
+    @Test
+    public void testLoadUrl() throws IOException, InterruptedException {
+        ParseUrlTask task = new ParseUrlTask("http://www.2hanju.com/player/2470_1_1.html");
+        task.parse();
 
 
     }
