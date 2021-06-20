@@ -3,4 +3,6 @@
     <string name="app_media_movie">电影</string>
     <string name="app_media_series">电视剧</string>
     <string name="app_source_host">http://www.2hanju.com</string>
+    <string name="app_main_type">类型： </string>
+    <string name="app_main_year">年份： </string>
 </resources>

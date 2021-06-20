@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.shi.simbo.entity.SeriesItem;
 import com.shi.simbo.task.LoadItemTask;
+import com.shi.simbo.task.ThreadPools;
 import com.shi.simbo.view.GridViewItemAdapter;
 
 import java.util.List;
@@ -102,18 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 ,radioButton.getText());
 
 
-
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                LoadItemTask task = new LoadItemTask(resource);
-                List<SeriesItem> items = task.loadItems();
-                Message message = Message.obtain();
-                message.obj = items;
-                mHandler.sendMessage(message);
-            }
-        }.start();
+        ThreadPools.executor.execute(()->{
+            LoadItemTask task = new LoadItemTask(resource);
+            List<SeriesItem> items = task.loadItems();
+            Message message = Message.obtain();
+            message.obj = items;
+            mHandler.sendMessage(message);
+        });
 
 
 

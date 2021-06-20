@@ -19,6 +19,7 @@ import com.shi.simbo.entity.SeriesDetail;
 import com.shi.simbo.entity.SeriesItem;
 import com.shi.simbo.task.LoadSeriesTask;
 import com.shi.simbo.task.ParseUrlTask;
+import com.shi.simbo.task.ThreadPools;
 import com.shi.simbo.view.EpisodeAdapter;
 
 
@@ -81,20 +82,16 @@ public class DetailActivity extends AppCompatActivity {
         String url = host + source;
 
 
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                LoadSeriesTask task = new LoadSeriesTask(url);
-                SeriesDetail detail = task.loadSeries();
-                Episode episode = detail.getEpisodes().get(detail.getCurrent());
-                String url = new ParseUrlTask(host + episode.getUrl()).parse();
-                detail.setUrl(url);
-                Message message = Message.obtain();
-                message.obj = detail;
-                mHandler.sendMessage(message);
-            }
-        }.start();
+        ThreadPools.executor.submit(()->{
+            LoadSeriesTask task = new LoadSeriesTask(url);
+            SeriesDetail detail = task.loadSeries();
+            Episode episode = detail.getEpisodes().get(detail.getCurrent());
+            String episodeUrl = new ParseUrlTask(host + episode.getUrl()).parse();
+            detail.setUrl(episodeUrl);
+            Message message = Message.obtain();
+            message.obj = detail;
+            mHandler.sendMessage(message);
+        });
 
     }
 
@@ -102,16 +99,12 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Episode episode = (Episode) parent.getItemAtPosition(position);
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    String url = new ParseUrlTask(getResources().getString(R.string.app_source_host) + episode.getUrl()).parse();
-                    Message message = Message.obtain();
-                    message.obj = url;
-                    episodeHandler.sendMessage(message);
-                }
-            }.start();
+            ThreadPools.executor.submit(()->{
+                String url = new ParseUrlTask(getResources().getString(R.string.app_source_host) + episode.getUrl()).parse();
+                Message message = Message.obtain();
+                message.obj = url;
+                episodeHandler.sendMessage(message);
+            });
         }
     };
 }
