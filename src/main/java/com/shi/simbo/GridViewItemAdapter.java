@@ -32,17 +32,17 @@ public class GridViewItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 12;
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -58,8 +58,9 @@ public class GridViewItemAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.gridTextView.setText("汽车");
-        Glide.with(context).load("https://pic.2hanju.com/pic/2420.jpg").into(holder.gridImageView);
+        SeriesItem item = items.get(position);
+        holder.gridTextView.setText(item.getTitle());
+        Glide.with(context).load(item.getImgSrc()).into(holder.gridImageView);
         return convertView;
 
     }
