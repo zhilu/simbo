@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -12,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.shi.simbo.entity.SeriesItem;
 import com.shi.simbo.task.LoadItemTask;
 import com.shi.simbo.task.ThreadPools;
 
@@ -20,6 +23,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,13 +32,21 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup yearRadioGroup;
     private GridView gridView;
 
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            gridView.setAdapter(new GridViewItemAdapter(MainActivity.this,msg));
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         gridView = findViewById(R.id.gridViewId);
-        gridView.setAdapter(new GridViewItemAdapter(this));
         gridView.setOnItemSelectedListener(onItemSelectedListener);
         gridView.setOnItemClickListener(onItemClickListener);
 
@@ -44,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
         yearRadioGroup = findViewById(R.id.year_radio_group);
         yearRadioGroup.setOnCheckedChangeListener(getOnCheckedChangeListener());
 
+
     }
+
+
+
 
     private RadioGroup.OnCheckedChangeListener getOnCheckedChangeListener() {
         return (radioGroup, i) -> {
@@ -95,6 +111,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                LoadItemTask task = new LoadItemTask(resource);
+                List<SeriesItem> items = task.loadItems();
+                Message message = Message.obtain();
+                message.obj = items;
+                mHandler.sendMessage(message);
+            }
+        }.start();
 
 
 

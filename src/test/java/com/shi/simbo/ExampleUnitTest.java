@@ -25,10 +25,7 @@ public class ExampleUnitTest {
 
     @Test
     public void testLoadItem() throws IOException, InterruptedException {
-        String source = "http://2hanju.com/yeah/2021.html";
-        Thread t=  new Thread(new LoadItemTask(source));
-        t.start();
-        t.join();
+
 
 
     }

@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LoadItemTask implements Runnable  {
+public class LoadItemTask {
 
     private String resource;
 
@@ -19,17 +19,15 @@ public class LoadItemTask implements Runnable  {
         this.resource = resource;
     }
 
-    @Override
-    public void run() {
+
+    public List<SeriesItem> loadItems() {
         try{
             Document document = Jsoup.connect(resource).get();
-            System.out.println(document.body());
 
             Elements elements = document.getElementsByClass("dsjlist")
                     .select("li");
 
-            System.out.println("---------------------------------");
-            System.out.println(elements.html());
+
             List<SeriesItem> items = new LinkedList<>();
             for (Element element : elements) {
                 String source = element.getElementsByTag("a").first().attr("href");
@@ -43,10 +41,11 @@ public class LoadItemTask implements Runnable  {
                 seriesItem.setTitle(title);
                 seriesItem.setCurrent(current);
                 items.add(seriesItem);
-                System.out.println(seriesItem.toString());
             }
+            return items;
         }catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 }

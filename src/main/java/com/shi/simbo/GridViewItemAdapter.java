@@ -1,6 +1,7 @@
 package com.shi.simbo;
 
 import android.content.Context;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,15 @@ public class GridViewItemAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<SeriesItem> items;
+    private Message message;
 
-    public GridViewItemAdapter(Context context) {
+    public GridViewItemAdapter(Context context,Message msg) {
         this.context =context;
         this.layoutInflater = LayoutInflater.from(context);
+        this.message = msg;
+        this.items = (List<SeriesItem>) msg.obj;
     }
+
 
 
     @Override
