@@ -1,4 +1,4 @@
-package com.shi.simbo;
+package com.shi.simbo.view;
 
 import android.content.Context;
 import android.os.Message;
@@ -9,35 +9,35 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.shi.simbo.entity.SeriesItem;
+import com.shi.simbo.R;
+import com.shi.simbo.entity.Episode;
+import com.shi.simbo.entity.SeriesDetail;
 
 import java.util.List;
 
-public class GridViewItemAdapter extends BaseAdapter {
+public class EpisodeAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<SeriesItem> items;
-    private Message message;
+    private List<Episode> episodes;
 
-    public GridViewItemAdapter(Context context,Message msg) {
+    public EpisodeAdapter(Context context, Message msg) {
         this.context =context;
         this.layoutInflater = LayoutInflater.from(context);
-        this.message = msg;
-        this.items = (List<SeriesItem>) msg.obj;
+        SeriesDetail detail = (SeriesDetail) msg.obj;
+        this.episodes = detail.getEpisodes();
     }
 
 
 
     @Override
     public int getCount() {
-        return items.size();
+        return episodes.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return episodes.get(position);
     }
 
     @Override
@@ -49,24 +49,21 @@ public class GridViewItemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if(convertView == null){
-            convertView = layoutInflater.inflate(R.layout.activity_item,parent,false);
+            convertView = layoutInflater.inflate(R.layout.activity_episode,parent,false);
             holder = new ViewHolder();
-            holder.gridImageView=convertView.findViewById(R.id.grid_image_view_id);
-            holder.gridTextView=convertView.findViewById(R.id.grid_text_view_id);
+            holder.gridTextView=convertView.findViewById(R.id.tv_episode_id);
             convertView.setTag(holder);
 
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        SeriesItem item = items.get(position);
-        holder.gridTextView.setText(item.getTitle());
-        Glide.with(context).load(item.getImgSrc()).into(holder.gridImageView);
+        Episode episode = episodes.get(position);
+        holder.gridTextView.setText(episode.getName());
         return convertView;
 
     }
 
     static class ViewHolder{
-        public ImageView gridImageView;
         public TextView gridTextView;
     }
 }

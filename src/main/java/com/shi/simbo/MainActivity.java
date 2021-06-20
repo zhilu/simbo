@@ -3,7 +3,6 @@ package com.shi.simbo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,15 +15,9 @@ import android.widget.Toast;
 
 import com.shi.simbo.entity.SeriesItem;
 import com.shi.simbo.task.LoadItemTask;
-import com.shi.simbo.task.ThreadPools;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.shi.simbo.view.GridViewItemAdapter;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -9,16 +9,40 @@
     <WebView
         android:id="@+id/detailVideoViewId"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="240dp"/>
 
     <TextView
         android:id="@+id/detailTextViewId"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="标题"/>
+    <TextView
+        android:id="@+id/tv_description_Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:text="描述"/>
+
+    <TextView
+        android:id="@+id/tv_actors_Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:text="演员"/>
+
+    <TextView
+        android:id="@+id/tv_release_Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:text="发行"/>
 
     <GridView
-        android:id="@+id/detailGridViewId"
+        android:id="@+id/gv_episode_id"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:numColumns="auto_fit"
+        android:columnWidth="80dp"
+        android:horizontalSpacing="0dp"
+        />
 </LinearLayout>
