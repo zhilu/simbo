@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -23,17 +24,22 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioGroup mediaRadioGroup;
     private RadioGroup yearRadioGroup;
+    private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        gridView = findViewById(R.id.gridViewId);
+        gridView.setAdapter(new GridViewItemAdapter(this));
+
         mediaRadioGroup = findViewById(R.id.media_radio_group);
         mediaRadioGroup.setOnCheckedChangeListener(getOnCheckedChangeListener());
 
         yearRadioGroup = findViewById(R.id.year_radio_group);
         yearRadioGroup.setOnCheckedChangeListener(getOnCheckedChangeListener());
+
     }
 
     private RadioGroup.OnCheckedChangeListener getOnCheckedChangeListener() {
@@ -57,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 ,radioButton.getText());
 
 
-        ThreadPools.threadPoolExecutor.submit(new LoadItemTask(resource));
+
+
 
 
 
