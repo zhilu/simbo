@@ -1,6 +1,13 @@
 package com.shi.simbo;
 
+import com.shi.simbo.task.LoadItemTask;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -13,5 +20,16 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+    }
+
+
+    @Test
+    public void testLoadItem() throws IOException, InterruptedException {
+        String source = "http://2hanju.com/yeah/2021.html";
+        Thread t=  new Thread(new LoadItemTask(source));
+        t.start();
+        t.join();
+
+
     }
 }
