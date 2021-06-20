@@ -9,7 +9,7 @@
         android:id="@+id/grid_image_view_id"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:background="#00FF00"/>
     <TextView
         android:id="@+id/grid_text_view_id"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textColor="#FF0000"
         android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginTop="1dp"/>
+        android:textSize="15dp"
+        android:layout_marginTop="2dp"/>
 
 </LinearLayout>

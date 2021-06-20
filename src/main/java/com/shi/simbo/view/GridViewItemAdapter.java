@@ -60,7 +60,7 @@ public class GridViewItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         SeriesItem item = items.get(position);
-        holder.gridTextView.setText(item.getTitle());
+        holder.gridTextView.setText(item.getTitle()+"("+item.getCurrent()+")");
         Glide.with(context).load(item.getImgSrc()).into(holder.gridImageView);
         return convertView;
 
