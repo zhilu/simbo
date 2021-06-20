@@ -69,6 +69,30 @@
                 android:layout_height="30dp"
                 android:button="@null"
                 android:text="2019" />
+            <RadioButton
+                android:id="@+id/year_2018"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:button="@null"
+                android:text="2018" />
+            <RadioButton
+                android:id="@+id/year_2017"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:button="@null"
+                android:text="2017" />
+            <RadioButton
+                android:id="@+id/year_2016"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:button="@null"
+                android:text="2016" />
+            <RadioButton
+                android:id="@+id/year_2015"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:button="@null"
+                android:text="2015" />
         </RadioGroup>
     </TableRow>
 
