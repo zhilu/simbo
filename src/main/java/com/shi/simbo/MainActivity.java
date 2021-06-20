@@ -2,9 +2,11 @@ package com.shi.simbo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         gridView = findViewById(R.id.gridViewId);
         gridView.setAdapter(new GridViewItemAdapter(this));
+        gridView.setOnItemSelectedListener(onItemSelectedListener);
+        gridView.setOnItemClickListener(onItemClickListener);
 
         mediaRadioGroup = findViewById(R.id.media_radio_group);
         mediaRadioGroup.setOnCheckedChangeListener(getOnCheckedChangeListener());
@@ -49,6 +53,33 @@ public class MainActivity extends AppCompatActivity {
             changeGrid();
         };
     }
+
+    AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(MainActivity.this,
+                    "点击位置:"+position,
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(MainActivity.this,
+                    "点击位置2:"+position,
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this,DetailActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString("name", "tinyphp");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    };
 
     private void changeGrid() {
         mediaRadioGroup = findViewById(R.id.media_radio_group);

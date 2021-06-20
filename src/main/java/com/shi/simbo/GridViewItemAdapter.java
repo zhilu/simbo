@@ -46,8 +46,8 @@ public class GridViewItemAdapter extends BaseAdapter {
         if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.activity_item,parent,false);
             holder = new ViewHolder();
-            holder.gridImageView=convertView.findViewById(R.id.grid_IV_Id);
-            holder.gridTextView=convertView.findViewById(R.id.grid_TV_Id);
+            holder.gridImageView=convertView.findViewById(R.id.grid_image_view_id);
+            holder.gridTextView=convertView.findViewById(R.id.grid_text_view_id);
             convertView.setTag(holder);
 
         }else{

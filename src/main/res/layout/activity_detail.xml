@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetailActivity">
+
+    <WebView
+        android:id="@+id/detailVideoViewId"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
+    <TextView
+        android:id="@+id/detailTextViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="ss是生生世世生生世世生生世世"/>
+
+    <GridView
+        android:id="@+id/detailGridViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
