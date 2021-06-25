@@ -1,7 +1,7 @@
 package com.shi.simbo.task;
 
 
-import com.shi.simbo.entity.SeriesItem;
+import com.shi.simbo.entity.GridItem;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +20,7 @@ public class LoadItemTask {
     }
 
 
-    public List<SeriesItem> loadItems() {
+    public List<GridItem> loadItems() {
         try{
             Document document = Jsoup.connect(resource).get();
 
@@ -28,19 +28,20 @@ public class LoadItemTask {
                     .select("li");
 
 
-            List<SeriesItem> items = new LinkedList<>();
+            List<GridItem> items = new LinkedList<>();
             for (Element element : elements) {
                 String source = element.getElementsByTag("a").first().attr("href");
                 String imgSrc = element.getElementsByTag("img").first().attr("src");
                 String title = element.getElementsByTag("img").first().attr("title");
                 String current = element.getElementsByTag("span").last().text();
 
-                SeriesItem seriesItem = new SeriesItem();
-                seriesItem.setSource(source);
-                seriesItem.setImgSrc(imgSrc);
-                seriesItem.setTitle(title);
-                seriesItem.setCurrent(current);
-                items.add(seriesItem);
+                GridItem gridItem = new GridItem();
+                gridItem.setMovie(false);
+                gridItem.setSource(source);
+                gridItem.setImgSrc(imgSrc);
+                gridItem.setTitle(title);
+                gridItem.setCurrent(current);
+                items.add(gridItem);
             }
             return items;
         }catch (Exception e){

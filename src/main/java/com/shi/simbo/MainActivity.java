@@ -13,8 +13,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.shi.simbo.entity.SeriesItem;
+import com.shi.simbo.entity.GridItem;
 import com.shi.simbo.task.LoadItemTask;
+import com.shi.simbo.task.LoadMovieTask;
 import com.shi.simbo.task.ThreadPools;
 import com.shi.simbo.view.GridViewItemAdapter;
 
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         yearRadioGroup = findViewById(R.id.year_radio_group);
         yearRadioGroup.setOnCheckedChangeListener(getOnCheckedChangeListener());
 
+        RadioButton yearButton = findViewById(R.id.year_2021);
+        yearButton.performClick();
+
 
     }
 
@@ -83,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,
                     "点击位置2:"+position,
                     Toast.LENGTH_SHORT).show();
-            SeriesItem item = (SeriesItem) parent.getItemAtPosition(position);
+            GridItem item = (GridItem) parent.getItemAtPosition(position);
             Intent intent = new Intent(MainActivity.this,DetailActivity.class);
             intent.putExtra("source", item.getSource());
             startActivity(intent);
@@ -94,18 +98,31 @@ public class MainActivity extends AppCompatActivity {
         mediaRadioGroup = findViewById(R.id.media_radio_group);
         int mediaButtonId = mediaRadioGroup.getCheckedRadioButtonId();
 
+        boolean isMovie =mediaButtonId == R.id.type_movie;
+
+
         yearRadioGroup = findViewById(R.id.year_radio_group);
         int yearButtonId = yearRadioGroup.getCheckedRadioButtonId();
         RadioButton radioButton = findViewById(yearButtonId);
 
-        String resource = String.format("%s/yeah/%s.html"
-                ,getResources().getString(R.string.app_source_host)
-                ,radioButton.getText());
+        String host = getResources().getString(R.string.app_source_host);
+        CharSequence year = radioButton.getText();
+        String resource = isMovie ?
+                String.format("%s/movie/", host)
+                : String.format("%s/yeah/%s.html",host, radioButton.getText());
 
 
         ThreadPools.executor.execute(()->{
-            LoadItemTask task = new LoadItemTask(resource);
-            List<SeriesItem> items = task.loadItems();
+            List<GridItem> items = null;
+            if(isMovie){
+                LoadMovieTask task = new LoadMovieTask(resource);
+                task.setHost(host);
+                task.setYear(String.valueOf(year));
+                items = task.loadItems();
+            }else {
+                LoadItemTask task = new LoadItemTask(resource);
+                items = task.loadItems();
+            }
             Message message = Message.obtain();
             message.obj = items;
             mHandler.sendMessage(message);

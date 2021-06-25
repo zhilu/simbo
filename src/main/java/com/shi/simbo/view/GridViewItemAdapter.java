@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.shi.simbo.R;
-import com.shi.simbo.entity.SeriesItem;
+import com.shi.simbo.entity.GridItem;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ public class GridViewItemAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<SeriesItem> items;
+    private List<GridItem> items;
     private Message message;
 
     public GridViewItemAdapter(Context context,Message msg) {
         this.context =context;
         this.layoutInflater = LayoutInflater.from(context);
         this.message = msg;
-        this.items = (List<SeriesItem>) msg.obj;
+        this.items = (List<GridItem>) msg.obj;
     }
 
 
@@ -59,8 +59,24 @@ public class GridViewItemAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        SeriesItem item = items.get(position);
-        holder.gridTextView.setText(item.getTitle()+"("+item.getCurrent()+")");
+        GridItem item = items.get(position);
+        if(item.isMovie()){
+            int length = item.getTitle().length();
+            StringBuffer sb = new StringBuffer(item.getTitle());
+            if(length == 2){
+                sb.append("          ");
+            }else if(length==3){
+                sb.append("       ");
+            }else if(length==1){
+                sb.append("             ");
+            }else if(length==4){
+                sb.append("    ");
+            }
+            holder.gridTextView.setText(sb.toString());
+        }else {
+            holder.gridTextView.setText(item.getTitle()+"("+item.getCurrent()+")");
+        }
+
         Glide.with(context).load(item.getImgSrc()).into(holder.gridImageView);
         return convertView;
 

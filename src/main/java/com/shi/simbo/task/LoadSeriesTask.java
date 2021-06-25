@@ -3,7 +3,6 @@ package com.shi.simbo.task;
 
 import com.shi.simbo.entity.Episode;
 import com.shi.simbo.entity.SeriesDetail;
-import com.shi.simbo.entity.SeriesItem;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

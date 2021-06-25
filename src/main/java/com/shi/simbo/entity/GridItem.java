@@ -1,12 +1,20 @@
 package com.shi.simbo.entity;
 
 
-public class SeriesItem {
+public class GridItem {
+    private boolean movie;
     private String imgSrc;
     private String title;
     private String source;
     private String current;
 
+    public boolean isMovie() {
+        return movie;
+    }
+
+    public void setMovie(boolean movie) {
+        this.movie = movie;
+    }
 
     public String getImgSrc() {
         return imgSrc;

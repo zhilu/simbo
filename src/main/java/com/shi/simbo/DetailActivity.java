@@ -12,11 +12,9 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.shi.simbo.entity.Episode;
 import com.shi.simbo.entity.SeriesDetail;
-import com.shi.simbo.entity.SeriesItem;
 import com.shi.simbo.task.LoadSeriesTask;
 import com.shi.simbo.task.ParseUrlTask;
 import com.shi.simbo.task.ThreadPools;

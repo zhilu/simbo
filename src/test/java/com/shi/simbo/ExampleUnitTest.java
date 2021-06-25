@@ -2,6 +2,7 @@ package com.shi.simbo;
 
 import com.shi.simbo.entity.SeriesDetail;
 import com.shi.simbo.task.LoadItemTask;
+import com.shi.simbo.task.LoadMovieTask;
 import com.shi.simbo.task.LoadSeriesTask;
 import com.shi.simbo.task.ParseUrlTask;
 
@@ -45,6 +46,15 @@ public class ExampleUnitTest {
     public void testLoadUrl() throws IOException, InterruptedException {
         ParseUrlTask task = new ParseUrlTask("http://www.2hanju.com/player/2470_1_1.html");
         task.parse();
+
+
+    }
+
+    @Test
+    public void testMovieUrl() throws IOException, InterruptedException {
+        LoadMovieTask task = new LoadMovieTask("http://2hanju.com/movie/");
+        task.setHost("http://2hanju.com");
+        task.loadItems();
 
 
     }
