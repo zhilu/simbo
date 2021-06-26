@@ -1,14 +1,8 @@
 package com.shi.simbo;
 
-import com.shi.simbo.entity.SeriesDetail;
-import com.shi.simbo.task.LoadItemTask;
-import com.shi.simbo.task.LoadMovieTask;
 import com.shi.simbo.task.LoadSeriesTask;
 import com.shi.simbo.task.ParseUrlTask;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -52,9 +46,7 @@ public class ExampleUnitTest {
 
     @Test
     public void testMovieUrl() throws IOException, InterruptedException {
-        LoadMovieTask task = new LoadMovieTask("http://2hanju.com/movie/");
-        task.setHost("http://2hanju.com");
-        task.loadItems();
+
 
 
     }

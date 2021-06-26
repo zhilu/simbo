@@ -1,4 +1,4 @@
-package com.shi.simbo.task;
+package com.shi.simbo.task.loader;
 
 
 import com.shi.simbo.entity.GridItem;
@@ -10,16 +10,20 @@ import org.jsoup.select.Elements;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
-public class LoadItemTask {
+public class SeriesGridItemLoader implements GridItemLoader {
 
     private String resource;
 
-    public LoadItemTask(String resource) {
-        this.resource = resource;
+    public SeriesGridItemLoader(LoaderConfig context) {
+        if(Objects.nonNull(context)){
+            this.resource =context.getSource();
+        }
     }
 
 
+    @Override
     public List<GridItem> loadItems() {
         try{
             Document document = Jsoup.connect(resource).get();

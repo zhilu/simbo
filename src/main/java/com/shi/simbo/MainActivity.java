@@ -14,8 +14,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.shi.simbo.entity.GridItem;
-import com.shi.simbo.task.LoadItemTask;
-import com.shi.simbo.task.LoadMovieTask;
+import com.shi.simbo.task.loader.GridItemLoader;
+import com.shi.simbo.task.loader.SeriesGridItemLoader;
+import com.shi.simbo.task.loader.MovieGridItemLoader;
+import com.shi.simbo.task.loader.LoaderConfig;
 import com.shi.simbo.task.ThreadPools;
 import com.shi.simbo.view.GridViewItemAdapter;
 
@@ -106,23 +108,28 @@ public class MainActivity extends AppCompatActivity {
         RadioButton radioButton = findViewById(yearButtonId);
 
         String host = getResources().getString(R.string.app_source_host);
+
         CharSequence year = radioButton.getText();
         String resource = isMovie ?
                 String.format("%s/movie/", host)
                 : String.format("%s/yeah/%s.html",host, radioButton.getText());
 
+        LoaderConfig config = new LoaderConfig();
+        if (isMovie) {
+            config.setHost(host);
+            config.setSource(String.format("%s/movie/", host));
+            config.addParam("year", String.valueOf(year));
+        } else {
+            config.setSource(String.format("%s/yeah/%s.html", host, radioButton.getText()));
+        }
+
+        GridItemLoader gridItemloader = isMovie ?
+                new MovieGridItemLoader(config)
+                : new SeriesGridItemLoader(config);
+
 
         ThreadPools.executor.execute(()->{
-            List<GridItem> items = null;
-            if(isMovie){
-                LoadMovieTask task = new LoadMovieTask(resource);
-                task.setHost(host);
-                task.setYear(String.valueOf(year));
-                items = task.loadItems();
-            }else {
-                LoadItemTask task = new LoadItemTask(resource);
-                items = task.loadItems();
-            }
+            List<GridItem> items = gridItemloader.loadItems();
             Message message = Message.obtain();
             message.obj = items;
             mHandler.sendMessage(message);

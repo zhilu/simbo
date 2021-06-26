@@ -1,35 +1,33 @@
-package com.shi.simbo.task;
+package com.shi.simbo.task.loader;
 
 import com.shi.simbo.entity.GridItem;
 
 import org.jsoup.Jsoup;
-import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
-public class LoadMovieTask {
+public class MovieGridItemLoader implements GridItemLoader {
 
     private String host;
     private String resource;
     private String year="2021";
 
-    public void setHost(String host) {
-        this.host = host;
-    }
 
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public LoadMovieTask(String resource) {
-        this.resource = resource;
+    public MovieGridItemLoader(LoaderConfig context) {
+        if(Objects.nonNull(context)){
+            this.host = context.getHost();
+            this.resource = context.getSource();
+            this.year = context.getParam("year");
+        }
     }
 
 
+    @Override
     public List<GridItem> loadItems() {
         try{
             Document document = Jsoup.connect(resource).get();
