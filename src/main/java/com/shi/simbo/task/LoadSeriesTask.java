@@ -70,8 +70,7 @@ public class LoadSeriesTask {
             Elements elements = document.getElementsByClass("jianjie_right");
 
             SeriesDetail item = new SeriesDetail();
-            item.setDescription(elements.get(0).select("div:not(p)").text());
-            item.setRelease(elements.get(0).getElementsByTag("p").get(0).text());
+            item.setDescription(elements.get(0).text());
 
             elements = document.getElementsByClass("list")
                     .select("a[target='_top']");
