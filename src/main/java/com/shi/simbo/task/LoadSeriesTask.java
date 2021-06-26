@@ -15,6 +15,15 @@ import java.util.List;
 public class LoadSeriesTask {
 
     private String resource;
+    private boolean movie;
+
+    public boolean isMovie() {
+        return movie;
+    }
+
+    public void setMovie(boolean movie) {
+        this.movie = movie;
+    }
 
     public LoadSeriesTask(String resource) {
         this.resource = resource;
@@ -22,6 +31,9 @@ public class LoadSeriesTask {
 
 
     public SeriesDetail loadSeries() {
+        if(isMovie()){
+            return loadMovie();
+        }
         try{
             Document document = Jsoup.connect(resource).get();
             Elements elements = document.getElementsByClass("jianjie_right")
@@ -45,7 +57,32 @@ public class LoadSeriesTask {
                 episodes.add(episode);
             }
             item.setEpisodes(episodes);
-            System.out.println(item);
+            return item;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private SeriesDetail loadMovie() {
+        try{
+            Document document = Jsoup.connect(resource).get();
+            Elements elements = document.getElementsByClass("jianjie_right");
+
+            SeriesDetail item = new SeriesDetail();
+            item.setDescription(elements.get(0).select("div:not(p)").text());
+            item.setRelease(elements.get(0).getElementsByTag("p").get(0).text());
+
+            elements = document.getElementsByClass("list")
+                    .select("a[target='_top']");
+            List<Episode> episodes = new LinkedList<>();
+            for (Element element : elements) {
+                Episode episode = new Episode();
+                episode.setUrl(element.attr("href"));
+                episode.setName(element.text());
+                episodes.add(episode);
+            }
+            item.setEpisodes(episodes);
             return item;
         }catch (Exception e){
             e.printStackTrace();

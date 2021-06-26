@@ -76,12 +76,14 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
+        boolean type = intent.getBooleanExtra("type",false);
         String host = getResources().getString(R.string.app_source_host);
         String url = host + source;
 
 
         ThreadPools.executor.submit(()->{
             LoadSeriesTask task = new LoadSeriesTask(url);
+            task.setMovie(type);
             SeriesDetail detail = task.loadSeries();
             Episode episode = detail.getEpisodes().get(detail.getCurrent());
             String episodeUrl = new ParseUrlTask(host + episode.getUrl()).parse();

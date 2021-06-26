@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             GridItem item = (GridItem) parent.getItemAtPosition(position);
             Intent intent = new Intent(MainActivity.this,DetailActivity.class);
             intent.putExtra("source", item.getSource());
+            intent.putExtra("type", item.isMovie());
             startActivity(intent);
         }
     };
