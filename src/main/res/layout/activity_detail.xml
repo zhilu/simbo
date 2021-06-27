@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:configChanges="orientation|screenSize|keyboardHidden"
     android:orientation="vertical"
     tools:context=".DetailActivity">
 
     <WebView
         android:id="@+id/detailVideoViewId"
         android:layout_width="match_parent"
-        android:layout_height="240dp"/>
+        android:layout_height="400dp"
+    />
+
+    <FrameLayout
+        android:id="@+id/full_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/process_bar"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:visibility="gone"
+        />
+
 
     <TextView
         android:id="@+id/detailTextViewId"

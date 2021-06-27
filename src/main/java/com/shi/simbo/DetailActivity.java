@@ -3,14 +3,21 @@ package com.shi.simbo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.shi.simbo.entity.Episode;
@@ -23,6 +30,8 @@ import com.shi.simbo.view.EpisodeAdapter;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private FrameLayout frameLayout;
+    private ProgressBar progressBar;
     private WebView webview;
     private TextView textViewTitle;
     private TextView textViewDesc;
@@ -38,6 +47,7 @@ public class DetailActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             SeriesDetail detail = (SeriesDetail) msg.obj;
+
             webview.loadUrl(getResources().getString(R.string.app_source_host)+detail.getUrl());
             textViewTitle.setText(detail.getTitle());
             textViewDesc.setText(detail.getDescription());
@@ -61,8 +71,14 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        frameLayout =findViewById(R.id.full_frame);
+        progressBar = findViewById(R.id.process_bar);
+
+
         webview = findViewById(R.id.detailVideoViewId);
         webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        webview.setWebChromeClient(new MyWebChromeClient());
         webview.setWebViewClient(new WebViewClient());
 
         textViewTitle = findViewById(R.id.detailTextViewId);
@@ -107,4 +123,72 @@ public class DetailActivity extends AppCompatActivity {
             });
         }
     };
+
+
+
+    class MyWebChromeClient extends WebChromeClient {
+        private View myView = null;
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (newProgress == 100) {
+                progressBar.setVisibility(View.GONE);//加载完网页进度条消失
+            } else {
+                progressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
+                progressBar.setProgress(newProgress);//设置进度值
+            }
+        }
+
+        // 全屏
+        @Override
+        public void onShowCustomView(View view, CustomViewCallback callback) {
+            super.onShowCustomView(view, callback);
+
+            webview.setVisibility(View.INVISIBLE);
+            frameLayout.addView(view);
+            frameLayout.setVisibility(View.VISIBLE);
+            myView = view;
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            getWindow().getDecorView().setSystemUiVisibility(View.INVISIBLE);
+            setFullScreen();
+        }
+
+        // 退出全屏
+        @Override
+        public void onHideCustomView() {
+            super.onHideCustomView();
+            if (myView != null) {
+                frameLayout.removeAllViews();
+                frameLayout.setVisibility(View.GONE);
+
+                webview.setVisibility(View.VISIBLE);
+                myView = null;
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                quitFullScreen();
+            }
+        }
+
+
+    }
+
+    /**
+     * 设置全屏
+     */
+    private void setFullScreen() {
+        // 设置全屏的相关属性，获取当前的屏幕状态，然后设置全屏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    /**
+     * 退出全屏
+     */
+    private void quitFullScreen() {
+        final WindowManager.LayoutParams attrs = this.getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setAttributes(attrs);
+        this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+
 }
